@@ -26,6 +26,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class IonRatingComponent implements ControlValueAccessor, OnChanges {
+  @Input() starsNumber = 5;
   @Input() rate: number;
   @Input() readonly: boolean;
   @Input() resettable: boolean;
@@ -35,6 +36,7 @@ export class IonRatingComponent implements ControlValueAccessor, OnChanges {
   @Output() rateChange = new EventEmitter<number>();
   hoverRate: number;
   disabled: boolean;
+  rangeStarsNumber: Array<number> = [1,2,3,4,5];
   onChange: (_: number) => void;
   onTouched: () => void;
 
@@ -43,6 +45,9 @@ export class IonRatingComponent implements ControlValueAccessor, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.rate) {
       this.update(this.rate);
+    }
+    if(changes.starsNumber){
+      this.rangeStarsNumber = [...Array(changes.starsNumber.currentValue + 1).keys()].slice(1);
     }
   }
 
